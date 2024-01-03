@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 
 public class ToysList implements Serializable {
     ArrayList<Toy> toysList;
@@ -63,8 +64,7 @@ public class ToysList implements Serializable {
         return getInfo();
     }
 
-    public ArrayList<String> prizeDraw(){
-        int quantity = 20;
+    public ArrayList<String> prizeDraw(int quantity){
         ArrayList<String> toysToGive = new ArrayList<>();
         for (Toy toy : toysList) {
             String name = toy.getToyName();

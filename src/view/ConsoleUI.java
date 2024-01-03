@@ -9,7 +9,6 @@ public class ConsoleUI {
     private Presenter presenter;
     private boolean work;
     private Menu menu;
-    private String error = "Вы ввели некорректное значение. Введите целое число";
     private String errorId = "Игрушки с таким ID нет в списке";
     public String positive = "Успешно!\n";
 
@@ -45,8 +44,16 @@ public class ConsoleUI {
     public void printToysList(){
         presenter.print();
     }
-    public void printToyToGive(){
-        presenter.printToyToGive();
+    public void createQueue(){
+        answer("Введите количество игрушек для розыгрыша :");
+        String input = scanner.nextLine();
+        int quantity;
+        if (checkIfInt(input)) {
+            quantity = Integer.parseInt(input);
+            presenter.createQueue(quantity);
+        } else {
+            answer("Попробуйте снова!");
+        }
     }
 
     public void generateToyList(){
@@ -137,20 +144,21 @@ public class ConsoleUI {
     }
 
     private void inputError(){
-        answer(error);
+        answer("Вы ввели некорректное значение. Введите целое число");
     }
 
-    public void loadToysList(){
-        presenter.loadToysList();
+    public void printToysGiven(){
+        answer(presenter.printToysGiven());
+
     }
 
-    public void saveToysList(){
-        presenter.saveToysList();
-    }
-
-    public void loadToysLottery(){
-        presenter.loadToysLottery();
-    }
+//    public void saveToysList(){
+//        presenter.saveToyGiven();
+//    }
+//
+//    public void loadToysLottery(){
+//        presenter.loadToysLottery();
+//    }
 
     public void setWritable(Writable writable) {
         presenter.setWritable(writable);
@@ -158,5 +166,10 @@ public class ConsoleUI {
 
     public void answer(String text) {
         System.out.println(text);
+    }
+
+    public void getPrize(){
+        presenter.getPrize();
+
     }
 }

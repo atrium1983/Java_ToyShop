@@ -13,7 +13,7 @@ public class ToyListBuilder {
 
     public ToysList generateToyList() {
         ToysList toysList = new ToysList();
-        Toy dole = new Toy(currentId++, "Кукла", 15);
+        Toy dole = new Toy(currentId++, "Кукла", 10);
         toysList.addToy(dole);
         Toy constructor = new Toy(currentId++, "Конструктор", 20);
         toysList.addToy(constructor);
@@ -21,7 +21,7 @@ public class ToyListBuilder {
         toysList.addToy(robot);
         Toy bear = new Toy(currentId++, "Медвежонок", 10);
         toysList.addToy(bear);
-        Toy car = new Toy(currentId++, "Машинка", 25);
+        Toy car = new Toy(currentId++, "Машинка", 30);
         toysList.addToy(car);
 
         return toysList;

@@ -14,7 +14,9 @@ public class Menu {
         commandList.add(new RemoveToy(consoleUI));
         commandList.add(new CleanList(consoleUI));
         commandList.add(new PrintToyList(consoleUI));
-        commandList.add(new ToysLottery(consoleUI));
+        commandList.add(new CreateQueue(consoleUI));
+        commandList.add((new MakeLottery(consoleUI)));
+        commandList.add(new PrintToysGiven(consoleUI));
         commandList.add(new Finish(consoleUI));
     }
 

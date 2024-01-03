@@ -13,15 +13,15 @@ public class Presenter {
         handler = new Handler(10);
     }
 
-    public void saveToysList(){
-        if(handler.saveToysList()) {
-            consoleUI.answer(consoleUI.positive);
-        }
-    }
+//    public void saveToyGiven(){
+//        if(handler.saveToyGiven()) {
+//            consoleUI.answer(consoleUI.positive);
+//        }
+//    }
 
-    public void loadToysList(){
-        handler.loadToysList();
-        consoleUI.answer(consoleUI.positive);
+    public String printToysGiven(){
+        String toysGiven = handler.loadToysGiven();
+        return toysGiven;
     }
 
     public void loadToysLottery(){
@@ -56,8 +56,8 @@ public class Presenter {
     public void printById(int id){
         consoleUI.answer(handler.printToy(id));
     }
-    public void printToyToGive(){
-        consoleUI.answer(handler.printToyToGive());
+    public void createQueue(int quantity){
+        consoleUI.answer(handler.createQueue(quantity));
     }
 
     public boolean findById(int id){
@@ -66,5 +66,15 @@ public class Presenter {
 
     public void setWritable(Writable writable){
         handler.setWritable(writable);
+    }
+
+    public void getPrize(){
+        String prize = handler.getPrize();
+        if(prize != null){
+            System.out.println(prize);
+            handler.saveToyGiven(prize);
+        } else {
+            consoleUI.answer("Очередь для розыгрыша игрушек пуста");
+        }
     }
 }
