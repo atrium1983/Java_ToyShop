@@ -68,19 +68,18 @@ public class ConsoleUI {
 
     }
 
-    public void changeName(){
-        answer("Введите ID игрушки");
-        int id = checkId(scanner.nextLine());
-        answer("Введите новое название игрушки : ");
-        String name = scanner.nextLine();
-        presenter.changeName(id, name);
-    }
     public void changeFrequency(){
         answer("Введите ID игрушки");
         int id = checkId(scanner.nextLine());
         answer("Введите частоту выпадения игрушки в розыгрыше (в %, например 20%");
-        int frequency = scanner.nextInt();
-        presenter.changeFrequency(id, frequency);
+        String input = scanner.nextLine();
+        int frequency;
+        if (checkIfInt(input)) {
+            frequency = Integer.parseInt(input);
+            presenter.changeFrequency(id, frequency);
+            answer(positive);
+            presenter.printById(id);
+        }
     }
 
     public void removeToy(){

@@ -4,8 +4,6 @@ import model.Handler;
 import model.writer.Writable;
 import view.ConsoleUI;
 
-import java.util.ArrayList;
-
 public class Presenter {
     private final Handler handler;
     private final ConsoleUI consoleUI;
@@ -37,9 +35,6 @@ public class Presenter {
         print();
     }
 
-    public void changeName(int id, String name){
-        handler.changeName(id, name);
-    }
     public void changeFrequency(int id, int frequency){
         handler.changeFrequency(id, frequency);
     }
@@ -58,12 +53,10 @@ public class Presenter {
     public void print(){
         consoleUI.answer(handler.printList());
     }
-
     public void printById(int id){
         consoleUI.answer(handler.printToy(id));
     }
     public void printToyToGive(){
-//        prizeDraw();
         consoleUI.answer(handler.printToyToGive());
     }
 
@@ -74,9 +67,4 @@ public class Presenter {
     public void setWritable(Writable writable){
         handler.setWritable(writable);
     }
-//    public void prizeDraw(){
-//        if(handler.prizeDraw()){
-//            consoleUI.answer(consoleUI.positive);
-//        }
-//    }
 }

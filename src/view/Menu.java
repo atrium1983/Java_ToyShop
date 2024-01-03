@@ -10,7 +10,6 @@ public class Menu {
     public Menu(ConsoleUI consoleUI){
         commandList = new ArrayList<>();
         commandList.add(new AddToy(consoleUI));
-        commandList.add(new ChangeName(consoleUI));
         commandList.add(new ChangeFrequency(consoleUI));
         commandList.add(new RemoveToy(consoleUI));
         commandList.add(new CleanList(consoleUI));

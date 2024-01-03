@@ -45,9 +45,6 @@ public class Handler {
         toysList.addToy(toy);
     }
 
-    public void changeName(int id, String name){
-        toysList.changeName(id, name);
-    }
     public void changeFrequency(int id, int frequency){
         toysList.changeFrequency(id, frequency);
     }
@@ -55,7 +52,6 @@ public class Handler {
     public boolean removeToy(int id){
         return toysList.removeToy(id);
     }
-
     public void cleanList() {
         toysList.cleanList();
     }

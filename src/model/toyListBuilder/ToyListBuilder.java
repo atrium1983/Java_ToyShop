@@ -23,8 +23,6 @@ public class ToyListBuilder {
         toysList.addToy(bear);
         Toy car = new Toy(currentId++, "Машинка", 25);
         toysList.addToy(car);
-//        Toy plane = new Toy(currentId++, "Самолёт", 20);
-//        toysList.addToy(plane);
 
         return toysList;
     }

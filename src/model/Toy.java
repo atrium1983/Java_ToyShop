@@ -23,10 +23,6 @@ public class Toy {
         return frequency;
     }
 
-    public void setToyName(String toyName) {
-        this.toyName = toyName;
-    }
-
     public void setFrequency(int frequency) {
         this.frequency = frequency;
     }

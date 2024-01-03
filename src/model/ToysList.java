@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ToysList implements Serializable {
     ArrayList<Toy> toysList;
@@ -30,17 +31,11 @@ public class ToysList implements Serializable {
         Toy toy = findToy(id);
         return toysList.remove(toy);
     }
-    public void changeName(int id, String name){
-        for (int i = 0; i < toysList.size(); i++) {
-            if(toysList.get(i).getToyId() == id){
-                toysList.get(i).setToyName(name);
-            }
-        }
-    }
+
     public void changeFrequency(int id, int frequency){
-        for (int i = 0; i < toysList.size(); i++) {
-            if(toysList.get(i).getToyId() == id){
-                toysList.get(i).setFrequency(frequency);
+        for (Toy toy : toysList) {
+            if (toy.getToyId() == id) {
+                toy.setFrequency(frequency);
             }
         }
     }
@@ -56,7 +51,6 @@ public class ToysList implements Serializable {
         }
         return info.toString();
     }
-
     public String getToyInfo(int id){
         StringBuilder info = new StringBuilder();
         info.append(toysList.get(id));
@@ -72,17 +66,17 @@ public class ToysList implements Serializable {
     public ArrayList<String> prizeDraw(){
         int quantity = 20;
         ArrayList<String> toysToGive = new ArrayList<>();
-        for (int i = 0; i < toysList.size(); i++) {
-            String name = toysList.get(i).getToyName();
-            int frequency = toysList.get(i).getFrequency();
+        for (Toy toy : toysList) {
+            String name = toy.getToyName();
+            int frequency = toy.getFrequency();
             toysToGive.addAll(getSimpleList(name, frequency, quantity));
+            Collections.shuffle(toysToGive);
         }
         return toysToGive;
     }
 
     public ArrayList<String> getSimpleList(String name, int frequency, int quantity){
         int length = (frequency*quantity/100);
-        System.out.println(length);
         ArrayList<String> nameArray = new ArrayList<>();
         for (int i = 0; i<length; i++){
             nameArray.add(name);
