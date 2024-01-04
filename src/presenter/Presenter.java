@@ -1,8 +1,11 @@
 package presenter;
 
 import model.Handler;
+import model.Toy;
 import model.writer.Writable;
 import view.ConsoleUI;
+
+import java.util.ArrayList;
 
 public class Presenter {
     private final Handler handler;
@@ -19,15 +22,19 @@ public class Presenter {
 //        }
 //    }
 
-    public String printToysGiven(){
-        String toysGiven = handler.loadToysGiven();
-        return toysGiven;
+    public void printToysGiven(){
+        ArrayList<Toy> list = handler.loadToysGiven();
+        String toys = null;
+        for (Toy toy : list) {
+            toys += toy.toyName +" ";
+        }
+        consoleUI.answer(toys);
     }
 
-    public void loadToysLottery(){
-        handler.loadToysLottery();
-        consoleUI.answer(consoleUI.positive);
-    }
+//    public void loadToysLottery(){
+//        handler.loadToysLottery();
+//        consoleUI.answer(consoleUI.positive);
+//    }
 
     public void addToy(String toyName, int frequency){
         handler.addToy(toyName, frequency);
@@ -57,7 +64,10 @@ public class Presenter {
         consoleUI.answer(handler.printToy(id));
     }
     public void createQueue(int quantity){
-        consoleUI.answer(handler.createQueue(quantity));
+        ArrayList<Toy> list = handler.createQueue(quantity);
+        for (Toy toy: list) {
+            consoleUI.answer(toy.toString());
+        }
     }
 
     public boolean findById(int id){
@@ -69,10 +79,10 @@ public class Presenter {
     }
 
     public void getPrize(){
-        String prize = handler.getPrize();
-        if(prize != null){
-            System.out.println(prize);
-            handler.saveToyGiven(prize);
+        int id = handler.getPrize();
+        if(id >= 0){
+            consoleUI.answer("Выдана игрушка: ");
+            consoleUI.answer(handler.printToyName(id));
         } else {
             consoleUI.answer("Очередь для розыгрыша игрушек пуста");
         }

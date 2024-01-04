@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class ToysList implements Serializable {
@@ -58,29 +59,29 @@ public class ToysList implements Serializable {
         info.append("\n");
         return info.toString();
     }
+    public String getToyName(int id){
+        StringBuilder info = new StringBuilder();
+        info.append(toysList.get(id).getToyName());
+        info.append("\n");
+        return info.toString();
+    }
 
     @Override
     public String toString(){
         return getInfo();
     }
 
-    public ArrayList<String> prizeDraw(int quantity){
-        ArrayList<String> toysToGive = new ArrayList<>();
+    public ArrayList<Toy> prizeDraw(int quantity){
+        ArrayList<Toy> toysToGive = new ArrayList<>();
         for (Toy toy : toysList) {
-            String name = toy.getToyName();
             int frequency = toy.getFrequency();
-            toysToGive.addAll(getSimpleList(name, frequency, quantity));
-            Collections.shuffle(toysToGive);
+            int length = (frequency*quantity/100);
+            for (int i = 0; i<length; i++){
+                toysToGive.add(toy);
+            }
+            getToyInfo(toy.toyId);
         }
+        Collections.shuffle(toysToGive);
         return toysToGive;
-    }
-
-    public ArrayList<String> getSimpleList(String name, int frequency, int quantity){
-        int length = (frequency*quantity/100);
-        ArrayList<String> nameArray = new ArrayList<>();
-        for (int i = 0; i<length; i++){
-            nameArray.add(name);
-        }
-        return nameArray;
     }
 }

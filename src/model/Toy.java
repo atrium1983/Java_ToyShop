@@ -1,6 +1,8 @@
 package model;
 
-public class Toy {
+import java.io.Serializable;
+
+public class Toy implements Serializable {
     public int toyId;
     public String toyName;
     public int frequency;
@@ -31,9 +33,9 @@ public class Toy {
         StringBuilder info = new StringBuilder();
         info.append("id: ");
         info.append(toyId);
-        info.append("| Название игрушки: ");
+        info.append("| ");
         info.append(toyName);
-        info.append("| Частота выпадения: ");
+        info.append("| Частота: ");
         info.append(frequency);
 
         return info.toString();

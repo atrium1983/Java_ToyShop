@@ -148,8 +148,7 @@ public class ConsoleUI {
     }
 
     public void printToysGiven(){
-        answer(presenter.printToysGiven());
-
+        presenter.printToysGiven();
     }
 
 //    public void saveToysList(){
@@ -170,6 +169,5 @@ public class ConsoleUI {
 
     public void getPrize(){
         presenter.getPrize();
-
     }
 }
