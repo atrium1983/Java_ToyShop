@@ -1,4 +1,4 @@
-package model;
+package model.toysItems;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +18,7 @@ public class ToyIterator<Toy> implements Iterator<Toy> {
 
     @Override
     public Toy next() {
-        return toyList.get(index);
+        return toyList.get(index++);
     }
 
 //    @Override

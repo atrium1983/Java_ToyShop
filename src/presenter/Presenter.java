@@ -1,7 +1,6 @@
 package presenter;
 
 import model.Handler;
-import model.ToysList;
 import model.writer.Writable;
 import view.ConsoleUI;
 
@@ -15,9 +14,8 @@ public class Presenter {
     }
 
     public void printToysGiven(){
-        ToysList toysGiven = handler.loadToysGiven();
-        System.out.println(toysGiven);
-//        System.out.println(toysGiven.getNameGiven());
+        handler.loadToysGiven();
+        consoleUI.answer(handler.printToysGiven());
     }
 
     public void addToy(String toyName, int frequency){
@@ -49,7 +47,7 @@ public class Presenter {
     }
     public void createQueue(int quantity){
         handler.createQueue(quantity);
-        handler.printQueue();
+        consoleUI.answer(handler.printQueue());
     }
 
     public boolean findById(int id){

@@ -1,16 +1,23 @@
 package model;
 
 import model.toyListBuilder.ToyListBuilder;
+import model.toysItems.Toy;
+import model.toysItems.ToyToGive;
+import model.toysItems.ToysGiven;
+import model.toysItems.ToysList;
 import model.writer.Writable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Handler {
     public int quantity;
     private ToysList toysList;
-    private ToysList toysToGive;
-    public ToysList toysGiven;
+    private ToyToGive toysToGive;
+    public ToysGiven toysGiven;
     private ToyListBuilder builder;
     Writable writable;
     String fileToysGiven = "src/model/writer/toysGiven.txt";
@@ -19,47 +26,42 @@ public class Handler {
     public Handler(int quantity){
         this.quantity = quantity;
         toysList = new ToysList();
+        toysToGive = new ToyToGive();
         builder = new ToyListBuilder();
     }
 
     public void setWritable(Writable writable) {
         this.writable = writable;
     }
-
-    public boolean saveToyGiven(Toy prize){
+    public void saveToyGiven(Toy prize){
         File file = new File(fileToysGiven);
-        ToysList list = new ToysList();
+        ToysGiven list = new ToysGiven();
         if(file.exists()){
             loadToysGiven();
             list = loadToysGiven();
         }
         list.addToy(prize);
-        return writable.save(list, fileToysGiven);
+        writable.save(list, fileToysGiven);
     }
-
-    public ToysList loadToysGiven(){
-        toysGiven = new ToysList();
+    public ToysGiven loadToysGiven(){
+        toysGiven = new ToysGiven();
         try {
-            toysGiven = (ToysList) writable.read(fileToysGiven);
+            toysGiven = (ToysGiven) writable.read(fileToysGiven);
             return toysGiven;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public boolean saveToysLottery(ToysList toysToGive){
-        return writable.save(toysToGive, fileToysQueue);
+    public void saveToysToGive(ToyToGive toysToGive){
+        writable.save(toysToGive, fileToysQueue);
     }
-
     public void addToy(String toyName, int frequency){
         Toy toy = builder.buildList(toyName, frequency);
         toysList.addToy(toy);
     }
-
     public void changeFrequency(int id, int frequency){
         toysList.changeFrequency(id, frequency);
     }
-
     public boolean removeToy(int id){
         return toysList.removeToy(id);
     }
@@ -70,7 +72,10 @@ public class Handler {
         return toysList.getInfo();
     }
     public String printQueue(){
-        return toysToGive.getQueueInfo();
+        return toysToGive.getInfo();
+    }
+    public String printToysGiven(){
+        return toysGiven.getInfo();
     }
     public String printToy(int id){
         return toysList.getToyInfo(id);
@@ -79,26 +84,33 @@ public class Handler {
         return toysList.getToyName(id);
     }
     public void createQueue(int quantity){
-        toysList.prizeDraw(quantity);
-        this.toysToGive = new ToysList();
-        for (Toy toy: toysList.toysToGive){
-            toysToGive.addToyToGive(toy);
-        }
-        System.out.println(toysToGive.getQueueInfo());
-        saveToysLottery(toysToGive);
+        prizeDraw(quantity);
+        saveToysToGive(toysToGive);
     }
-
+    public void prizeDraw(int quantity) {
+        List<Integer> idToysToGive = new ArrayList<>();
+        for (Toy toy : toysList) {
+            int frequency = toy.getFrequency();
+            int length = (frequency * quantity / 100);
+            for (int i = 0; i < length; i++) {
+                idToysToGive.add(toy.getToyId());
+            }
+        }
+        Collections.shuffle(idToysToGive);
+        for (Integer id : idToysToGive) {
+            toysToGive.addToy(toysList.findToy(id));
+        }
+    }
     public boolean findById(int id){
         return toysList.findToy(id) != null;
     }
     public void generateToyList(){
         toysList = builder.generateToyList();
     }
-
     public int getPrize(){
         Toy prize;
-        if(toysToGive.sizeToysToGive()>0){
-            prize = toysToGive.removeToyFromQueue(0);
+        if(toysToGive.size()>0){
+            prize = toysToGive.removeToy(0);
             saveToyGiven(prize);
             return prize.getToyId();
         }

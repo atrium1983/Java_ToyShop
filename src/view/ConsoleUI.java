@@ -9,7 +9,6 @@ public class ConsoleUI {
     private Presenter presenter;
     private boolean work;
     private Menu menu;
-    private String errorId = "Игрушки с таким ID нет в списке";
     public String positive = "Успешно!\n";
 
     public ConsoleUI() {

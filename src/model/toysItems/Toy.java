@@ -1,4 +1,4 @@
-package model;
+package model.toysItems;
 
 import java.io.Serializable;
 

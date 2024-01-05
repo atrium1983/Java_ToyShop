@@ -1,7 +1,7 @@
 package model.toyListBuilder;
 
-import model.Toy;
-import model.ToysList;
+import model.toysItems.Toy;
+import model.toysItems.ToysList;
 
 public class ToyListBuilder {
     private int currentId = 0;
