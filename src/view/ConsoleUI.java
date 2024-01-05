@@ -151,14 +151,6 @@ public class ConsoleUI {
         presenter.printToysGiven();
     }
 
-//    public void saveToysList(){
-//        presenter.saveToyGiven();
-//    }
-//
-//    public void loadToysLottery(){
-//        presenter.loadToysLottery();
-//    }
-
     public void setWritable(Writable writable) {
         presenter.setWritable(writable);
     }

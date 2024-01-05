@@ -1,16 +1,15 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
-public class ToysList implements Serializable {
+public class ToysList implements Serializable, Iterable<Toy> {
     ArrayList<Toy> toysList;
+    ArrayList<Toy> toysToGive;
 
     public ToysList(){
         toysList = new ArrayList<>();
+        toysToGive = new ArrayList<>();
     }
 
     public void addToy(Toy toy){
@@ -23,6 +22,9 @@ public class ToysList implements Serializable {
             }
         }
     return null;
+    }
+    public void addToyToGive(Toy toy){
+        toysToGive.add(toy);
     }
 
     public void cleanList(){
@@ -44,7 +46,7 @@ public class ToysList implements Serializable {
 
     public String getInfo() {
         StringBuilder info = new StringBuilder();
-        info.append("Наименование игрушек, участвующих в розыгрыше. Всего => ");
+        info.append("Список игрушек. Всего => ");
         info.append((toysList.size()));
         info.append(" \n");
         for (Toy toy: toysList) {
@@ -53,6 +55,19 @@ public class ToysList implements Serializable {
         }
         return info.toString();
     }
+
+    public String getQueueInfo() {
+        StringBuilder info = new StringBuilder();
+        info.append("Очередь игрушек для выдачи. Всего => ");
+        info.append((toysToGive.size()));
+        info.append(" \n");
+        for (Toy toy: toysToGive) {
+            info.append(toy);
+            info.append("\n");
+        }
+        return info.toString();
+    }
+
     public String getToyInfo(int id){
         StringBuilder info = new StringBuilder();
         info.append(toysList.get(id));
@@ -71,17 +86,31 @@ public class ToysList implements Serializable {
         return getInfo();
     }
 
-    public ArrayList<Toy> prizeDraw(int quantity){
-        ArrayList<Toy> toysToGive = new ArrayList<>();
+    public void prizeDraw(int quantity) {
+        List<Integer> idToysToGive = new ArrayList<>();
         for (Toy toy : toysList) {
             int frequency = toy.getFrequency();
-            int length = (frequency*quantity/100);
-            for (int i = 0; i<length; i++){
-                toysToGive.add(toy);
+            int length = (frequency * quantity / 100);
+            for (int i = 0; i < length; i++) {
+                idToysToGive.add(toy.getToyId());
             }
-            getToyInfo(toy.toyId);
         }
-        Collections.shuffle(toysToGive);
-        return toysToGive;
+        Collections.shuffle(idToysToGive);
+        for (Integer id : idToysToGive) {
+            toysToGive.add(findToy(id));
+            getToyInfo(id);
+        }
+    }
+
+    public int sizeToysToGive(){
+        return toysToGive.size();
+    }
+    public Toy removeToyFromQueue(int id){
+        return toysToGive.remove(id);
+    }
+
+    @Override
+    public Iterator<Toy> iterator() {
+        return new ToyIterator<>(toysToGive);
     }
 }

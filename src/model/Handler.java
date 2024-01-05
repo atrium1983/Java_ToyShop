@@ -3,16 +3,14 @@ package model;
 import model.toyListBuilder.ToyListBuilder;
 import model.writer.Writable;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.PriorityQueue;
 
 public class Handler {
     public int quantity;
     private ToysList toysList;
-    private ArrayList<Toy> toysQueue;
+    private ToysList toysToGive;
+    public ToysList toysGiven;
     private ToyListBuilder builder;
     Writable writable;
     String fileToysGiven = "src/model/writer/toysGiven.txt";
@@ -22,7 +20,6 @@ public class Handler {
         this.quantity = quantity;
         toysList = new ToysList();
         builder = new ToyListBuilder();
-        toysQueue = new ArrayList<>();
     }
 
     public void setWritable(Writable writable) {
@@ -30,28 +27,29 @@ public class Handler {
     }
 
     public boolean saveToyGiven(Toy prize){
-        return writable.save(prize, fileToysGiven);
+        File file = new File(fileToysGiven);
+        ToysList list = new ToysList();
+        if(file.exists()){
+            loadToysGiven();
+            list = loadToysGiven();
+        }
+        list.addToy(prize);
+        return writable.save(list, fileToysGiven);
     }
 
-    public ArrayList<Toy> loadToysGiven(){
+    public ToysList loadToysGiven(){
+        toysGiven = new ToysList();
         try {
-            return (ArrayList<Toy>) writable.read(fileToysGiven);
+            toysGiven = (ToysList) writable.read(fileToysGiven);
+            return toysGiven;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean saveToysLottery(ArrayList<Toy> toysQueue){
-        return writable.save(toysQueue, fileToysQueue);
+    public boolean saveToysLottery(ToysList toysToGive){
+        return writable.save(toysToGive, fileToysQueue);
     }
-
-//    public void loadToysLottery() {
-//        try {
-//            toysQueue = (ArrayList<Toy>) writable.read(fileToysQueue);
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     public void addToy(String toyName, int frequency){
         Toy toy = builder.buildList(toyName, frequency);
@@ -71,16 +69,23 @@ public class Handler {
     public String printList(){
         return toysList.getInfo();
     }
+    public String printQueue(){
+        return toysToGive.getQueueInfo();
+    }
     public String printToy(int id){
         return toysList.getToyInfo(id);
     }
     public String printToyName(int id){
         return toysList.getToyName(id);
     }
-    public ArrayList<Toy> createQueue(int quantity){
-        toysQueue = toysList.prizeDraw(quantity);
-        saveToysLottery(toysQueue);
-        return toysQueue;
+    public void createQueue(int quantity){
+        toysList.prizeDraw(quantity);
+        this.toysToGive = new ToysList();
+        for (Toy toy: toysList.toysToGive){
+            toysToGive.addToyToGive(toy);
+        }
+        System.out.println(toysToGive.getQueueInfo());
+        saveToysLottery(toysToGive);
     }
 
     public boolean findById(int id){
@@ -92,8 +97,8 @@ public class Handler {
 
     public int getPrize(){
         Toy prize;
-        if(toysQueue.size()>0){
-            prize = toysQueue.remove(0);
+        if(toysToGive.sizeToysToGive()>0){
+            prize = toysToGive.removeToyFromQueue(0);
             saveToyGiven(prize);
             return prize.getToyId();
         }

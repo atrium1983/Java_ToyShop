@@ -1,11 +1,9 @@
 package presenter;
 
 import model.Handler;
-import model.Toy;
+import model.ToysList;
 import model.writer.Writable;
 import view.ConsoleUI;
-
-import java.util.ArrayList;
 
 public class Presenter {
     private final Handler handler;
@@ -16,25 +14,11 @@ public class Presenter {
         handler = new Handler(10);
     }
 
-//    public void saveToyGiven(){
-//        if(handler.saveToyGiven()) {
-//            consoleUI.answer(consoleUI.positive);
-//        }
-//    }
-
     public void printToysGiven(){
-        ArrayList<Toy> list = handler.loadToysGiven();
-        String toys = null;
-        for (Toy toy : list) {
-            toys += toy.toyName +" ";
-        }
-        consoleUI.answer(toys);
+        ToysList toysGiven = handler.loadToysGiven();
+        System.out.println(toysGiven);
+//        System.out.println(toysGiven.getNameGiven());
     }
-
-//    public void loadToysLottery(){
-//        handler.loadToysLottery();
-//        consoleUI.answer(consoleUI.positive);
-//    }
 
     public void addToy(String toyName, int frequency){
         handler.addToy(toyName, frequency);
@@ -64,10 +48,8 @@ public class Presenter {
         consoleUI.answer(handler.printToy(id));
     }
     public void createQueue(int quantity){
-        ArrayList<Toy> list = handler.createQueue(quantity);
-        for (Toy toy: list) {
-            consoleUI.answer(toy.toString());
-        }
+        handler.createQueue(quantity);
+        handler.printQueue();
     }
 
     public boolean findById(int id){
