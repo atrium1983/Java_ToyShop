@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ToysGiven implements Serializable, Iterable<Toy> {
-    ArrayList<Toy> toysGiven;
+public class ToysGiven<E extends LotteryItem> implements Serializable, Iterable<E> {
+    ArrayList<E> toysGiven;
 
     public ToysGiven(){
         toysGiven = new ArrayList<>();
     }
-    public void addToy(Toy toy){
+    public void addToy(E toy){
         toysGiven.add(toy);
     }
     public String getInfo() {
@@ -18,7 +18,7 @@ public class ToysGiven implements Serializable, Iterable<Toy> {
         info.append("Список разыгранных игрушек. Всего => ");
         info.append((toysGiven.size()));
         info.append(" \n");
-        for (Toy toy: toysGiven) {
+        for (E toy: toysGiven) {
             info.append(toy.getToyName());
             info.append("\n");
         }
@@ -31,7 +31,7 @@ public class ToysGiven implements Serializable, Iterable<Toy> {
     }
 
     @Override
-    public Iterator<Toy> iterator() {
+    public Iterator<E> iterator() {
         return new ToyIterator<>(toysGiven);
     }
 }

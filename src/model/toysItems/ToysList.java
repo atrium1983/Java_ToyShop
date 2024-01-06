@@ -3,54 +3,49 @@ package model.toysItems;
 import java.io.Serializable;
 import java.util.*;
 
-public class ToysList implements Serializable, Iterable<Toy> {
-    ArrayList<Toy> toysList;
+public class ToysList<E extends LotteryItem> implements Serializable, Iterable<E> {
+    ArrayList<E> toysList;
 
     public ToysList(){
         toysList = new ArrayList<>();
     }
 
-    public void addToy(Toy toy){
+    public void addToy(E toy){
         toysList.add(toy);
     }
-    public Toy findToy(int id){
-        for (Toy toy : toysList) {
+    public E findToy(int id){
+        for (E toy : toysList) {
             if(toy.getToyId() == id){
                 return toy;
             }
         }
     return null;
     }
-
     public void cleanList(){
         toysList.clear();
     }
-
     public boolean removeToy(int id){
-        Toy toy = findToy(id);
+        E toy = findToy(id);
         return toysList.remove(toy);
     }
-
     public void changeFrequency(int id, int frequency){
-        for (Toy toy : toysList) {
+        for (E toy : toysList) {
             if (toy.getToyId() == id) {
                 toy.setFrequency(frequency);
             }
         }
     }
-
     public String getInfo() {
         StringBuilder info = new StringBuilder();
         info.append("Список игрушек. Всего => ");
         info.append((toysList.size()));
         info.append(" \n");
-        for (Toy toy: toysList) {
+        for (E toy: toysList) {
             info.append(toy);
             info.append("\n");
         }
         return info.toString();
     }
-
     public String getToyInfo(int id){
         StringBuilder info = new StringBuilder();
         info.append(toysList.get(id));
@@ -70,7 +65,7 @@ public class ToysList implements Serializable, Iterable<Toy> {
     }
 
     @Override
-    public Iterator<Toy> iterator() {
+    public Iterator<E> iterator() {
         return new ToyIterator<>(toysList);
     }
 }

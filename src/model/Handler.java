@@ -5,6 +5,7 @@ import model.toysItems.Toy;
 import model.toysItems.ToyToGive;
 import model.toysItems.ToysGiven;
 import model.toysItems.ToysList;
+import model.writer.MyException;
 import model.writer.Writable;
 
 import java.io.File;
@@ -15,9 +16,9 @@ import java.util.List;
 
 public class Handler {
     public int quantity;
-    private ToysList toysList;
-    private ToyToGive toysToGive;
-    public ToysGiven toysGiven;
+    private ToysList<Toy> toysList;
+    private ToyToGive<Toy> toysToGive;
+    public ToysGiven<Toy> toysGiven;
     private ToyListBuilder builder;
     Writable writable;
     String fileToysGiven = "src/model/writer/toysGiven.txt";
@@ -37,23 +38,37 @@ public class Handler {
         File file = new File(fileToysGiven);
         ToysGiven list = new ToysGiven();
         if(file.exists()){
-            loadToysGiven();
-            list = loadToysGiven();
+            try {
+                loadToysGiven();
+                list = loadToysGiven();
+            } catch (MyException e) {
+                System.out.println(e.getMessage());
+            }
         }
         list.addToy(prize);
-        writable.save(list, fileToysGiven);
+        try {
+            writable.save(list, fileToysGiven);
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
+        }
     }
-    public ToysGiven loadToysGiven(){
+    public ToysGiven loadToysGiven() throws MyException {
         toysGiven = new ToysGiven();
         try {
             toysGiven = (ToysGiven) writable.read(fileToysGiven);
-            return toysGiven;
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new MyException("Файл не найден");
+        } catch (MyException e){
+            System.out.println(e.getMessage());
         }
+        return toysGiven;
     }
     public void saveToysToGive(ToyToGive toysToGive){
-        writable.save(toysToGive, fileToysQueue);
+        try {
+            writable.save(toysToGive, fileToysQueue);
+        } catch (MyException e) {
+            System.out.println(e.getMessage());;
+        }
     }
     public void addToy(String toyName, int frequency){
         Toy toy = builder.buildList(toyName, frequency);
@@ -110,7 +125,7 @@ public class Handler {
     public int getPrize(){
         Toy prize;
         if(toysToGive.size()>0){
-            prize = toysToGive.removeToy(0);
+            prize = (Toy) toysToGive.removeToy(0);
             saveToyGiven(prize);
             return prize.getToyId();
         }

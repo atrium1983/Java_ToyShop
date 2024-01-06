@@ -1,6 +1,7 @@
 package presenter;
 
 import model.Handler;
+import model.writer.MyException;
 import model.writer.Writable;
 import view.ConsoleUI;
 
@@ -14,24 +15,24 @@ public class Presenter {
     }
 
     public void printToysGiven(){
-        handler.loadToysGiven();
+        try {
+            handler.loadToysGiven();
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
+        }
         consoleUI.answer(handler.printToysGiven());
     }
-
     public void addToy(String toyName, int frequency){
         handler.addToy(toyName, frequency);
         consoleUI.answer(consoleUI.positive);
         print();
     }
-
     public void changeFrequency(int id, int frequency){
         handler.changeFrequency(id, frequency);
     }
-
     public boolean removeToy(int id){
         return handler.removeToy(id);
     }
-
     public void cleanList() {
         handler.cleanList();
     }
@@ -49,15 +50,12 @@ public class Presenter {
         handler.createQueue(quantity);
         consoleUI.answer(handler.printQueue());
     }
-
     public boolean findById(int id){
         return handler.findById(id);
     }
-
     public void setWritable(Writable writable){
         handler.setWritable(writable);
     }
-
     public void getPrize(){
         int id = handler.getPrize();
         if(id >= 0){

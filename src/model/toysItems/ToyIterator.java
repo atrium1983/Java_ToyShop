@@ -3,11 +3,11 @@ package model.toysItems;
 import java.util.Iterator;
 import java.util.List;
 
-public class ToyIterator<Toy> implements Iterator<Toy> {
+public class ToyIterator<E extends LotteryItem> implements Iterator<E> {
 
     public int index;
-    public List<Toy> toyList;
-    public ToyIterator(List<Toy> toyList) {
+    public List<E> toyList;
+    public ToyIterator(List<E> toyList) {
         this.toyList = toyList;
     }
 
@@ -17,12 +17,7 @@ public class ToyIterator<Toy> implements Iterator<Toy> {
     }
 
     @Override
-    public Toy next() {
+    public E next() {
         return toyList.get(index++);
     }
-
-//    @Override
-//    public void remove() {
-//        Iterator.super.remove();
-//    }
 }

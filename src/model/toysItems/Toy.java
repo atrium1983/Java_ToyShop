@@ -2,7 +2,7 @@ package model.toysItems;
 
 import java.io.Serializable;
 
-public class Toy implements Serializable {
+public class Toy implements Serializable, LotteryItem {
     public int toyId;
     public String toyName;
     public int frequency;

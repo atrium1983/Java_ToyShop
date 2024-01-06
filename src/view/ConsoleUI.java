@@ -77,14 +77,18 @@ public class ConsoleUI {
     public void changeFrequency(){
         answer("Введите ID игрушки");
         int id = checkId(scanner.nextLine());
-        answer("Введите частоту выпадения игрушки в розыгрыше (в %, например 20%");
-        String input = scanner.nextLine();
-        int frequency;
-        if (checkIfInt(input)) {
-            frequency = Integer.parseInt(input);
-            presenter.changeFrequency(id, frequency);
-            answer(positive);
-            presenter.printById(id);
+        if(id >= 0){
+            answer("Введите частоту выпадения игрушки в розыгрыше (в %, например 20");
+            String input = scanner.nextLine();
+            int frequency;
+            if (checkIfInt(input)) {
+                frequency = Integer.parseInt(input);
+                presenter.changeFrequency(id, frequency);
+                answer(positive);
+                presenter.printById(id);
+            }
+        } else {
+            answer("Попробуйте снова\n");
         }
     }
 
@@ -133,6 +137,8 @@ public class ConsoleUI {
             int intId = Integer.parseInt(id);
             if (findById(intId)) {
                 return intId;
+            } else {
+                answer("Игрушка с id = " + id + " не найдена.");
             }
         }
         return -1;
@@ -143,7 +149,7 @@ public class ConsoleUI {
     }
 
     private void inputError(){
-        answer("Вы ввели некорректное значение. Введите целое число");
+        answer("Вы ввели некорректное значение. Необходимо целое положительное число.");
     }
 
     public void printToysGiven(){
